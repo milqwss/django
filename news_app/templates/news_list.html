@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% extends "base.html" %}
+{% block title %}Новости{% endblock %}
+{% block content %}
+<h1>Все новости</h1>
+<form method="get">
+    <input type="text" name="q" placeholder="Поиск по заголовкам">
+    <select name="sort">
+        <option value="-pub_date">От новых к старым</option>
+        <option value="pub_date">От старых к новым</option>
+    </select>
+    <button type="submit">Применить</button>
+</form>
+<ul>
+    {% for news in news_list %}
+        <li>
+            <a href="/news/{{ news.id }}"><strong>{{ news.title }}</strong></a>
+            <small>{{ news.pub_date }}</small>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+</title>
+</head>
+<body>
+
+</body>
+</html>
