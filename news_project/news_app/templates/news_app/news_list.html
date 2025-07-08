@@ -1,0 +1,31 @@
+{% extends "news_app/base.html" %}
+{% load static %}
+
+{% block title %}Новости{% endblock %}
+{% block content %}
+    <div style="padding: 5px;">
+        <h1>Все новости</h1>
+        <div style="display: flex; align-items: center;">
+            <form method="get" style="padding: 5px;">
+                <input type="text" name="q" placeholder="Поиск по заголовкам">
+                <select name="sort">
+                    <option value="-pub_date">От новых к старым</option>
+                    <option value="pub_date">От старых к новым</option>
+                </select>
+                <button type="submit">Применить</button>
+            </form>
+            {% if request.user.is_staff %}
+                <a class="btn btn-success" href="{% url 'add_news' %}">Добавить новость</a>
+            {% endif %}
+        </div>
+        <ul>
+            {% for news in news_list %}
+                <li style="border-bottom: 1px solid black; width: 40%; margin-bottom: 5px;">
+                    <div><a href="/news/{{ news.id }}"><strong>{{ news.title }}</strong></a></div>
+                    <div><small>Дата и время публикации: {{ news.pub_date }}</small></div>
+                    <div><small>Автор: {{ news.author }}</small></div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

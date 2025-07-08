@@ -1,0 +1,16 @@
+{% extends "news_app/base.html" %}
+{% load static %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+    <div style="padding: 5px;">
+        <h2>Вход</h2>
+        <form method="post" style="margin-bottom: 10px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Войти</button>
+        </form>
+        <p>Нет аккаунта? <a href="/register/">Зарегистрируйтесь</a></p>
+        </div>
+{% endblock %}

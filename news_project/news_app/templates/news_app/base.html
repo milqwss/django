@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css"
+    integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="{% static 'news_app/css/base.css' %}">
+    {% block static %}
+    {% endblock %}
+</head>
+<body>
+    <div class="header">
+        <div class="left_side">
+            <a class="btn btn-primary" href="{% url 'index' %}">На главную</a>
+            <a class="btn btn-secondary" href="{% url 'news_list' %}">Список новостей</a>
+            <a class="btn btn-info" href="{% url 'contacts' %}">Контакты</a>
+        </div>
+        <div class="middle">
+            {% if user.is_authenticated %}
+                <div class="about_user" style="display: flex; align-items: center; margin-right: 30px;">
+                    <div class="greating" style="font-weight: bolder; white-space: nowrap;">Привет, {{ user.username }}!</div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="right_side">
+            {% if user.is_authenticated %}
+                {% if user.is_superuser or user.is_staff %}
+                    <a class="btn btn-dark" href="{% url 'admin:index' %}"><i class="fa fa-cog"></i></a>
+                {% endif %}
+                <form class="log_out_form" action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-sign-out-alt"></i>Выход</button>
+                </form>
+            {% else %}
+                <a class="btn btn-success" href="{% url 'login' %}">Вход</a>
+                <a class="btn btn-primary" href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+    <div style="height: 45px;"></div>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

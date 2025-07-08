@@ -1,0 +1,36 @@
+{% extends "news_app/base.html" %}
+{% load static %}
+
+{% block title %}{{ news.title }}{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'news_app/css/news_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="news_detail">
+        <h1>{{ news.title }}</h1>
+        <p>{{ news.content }}</p>
+        <p><strong>Автор: </strong>{{ news.author }}</p>
+        <p><strong>Дата: </strong>{{ news.pub_date }}</p>
+        {% if news.image %}
+            <img style="background-size: cover; width: 50%; height: 50%; border: 1px solid black; margin-bottom: 10px;" src="{{ news.image.url }}" alt="Изображение">
+        {% endif %}
+
+        <h2>Комментарии:</h2>
+        <ul>
+            {% for comment in comments %}
+                <li><b>{{ comment.user.username }}</b>: {{ comment.text }}</li>
+            {% endfor %}
+        </ul>
+
+        {% if form %}
+            <h3>Оставить комментарий:</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Отправить</button>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

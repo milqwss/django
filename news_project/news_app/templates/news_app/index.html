@@ -1,0 +1,21 @@
+{% extends "news_app/base.html" %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    <div style="padding: 5px;">
+        <h1>Добро пожаловать!</h1>
+        <div class="latest-news">
+            {% for news in latest_news %}
+                <div class="news-item" style="border: 1px solid black; margin-bottom: 10px; width: 30%; padding: 5px;">
+                    <h3>{{ news.title }}</h3>
+                    <p>{{ news.content|truncatewords:20 }}</p>
+                    <p><strong>Автор: </strong>{{ news.author }}</p>
+                    <p><strong>Дата публикации: </strong>{{ news.pub_date }}</p>
+                    <a href="/news/{{ news.id }}">Подробнее</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
